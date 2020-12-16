@@ -1,6 +1,8 @@
 <template>
-  <v-app dark>
-    <v-navigation-drawer
+  <v-app light :dark="false">
+    <Navbar />
+      <nuxt/>
+    <!-- <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -23,8 +25,8 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer>
-    <v-app-bar
+    </v-navigation-drawer> -->
+    <!-- <v-app-bar
       :clipped-left="clipped"
       fixed
       app
@@ -78,7 +80,7 @@
           <v-list-item-title>Switch drawer (click me)</v-list-item-title>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
     <v-footer
       :absolute="!fixed"
       app
@@ -115,3 +117,122 @@ export default {
   }
 }
 </script>
+
+
+<style>
+:root {
+  --color: #243746;
+  --color-primary: #158876;
+  --color-secondary: #0e2233;
+  --bg: #f3f5f4;
+  --bg-secondary: #fff;
+  --border-color: #ddd;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--bg);
+  color: var(--color);
+  transition: background-color 0.3s;
+}
+
+@font-face {
+  font-family: "themix";
+  src: url("~assets/fonts/themix/TheMix_LT_400.eot");
+  src: url("~assets/fonts/themix/TheMix_LT_400.eot? #iefix")
+    format("embedded-opentype");
+  src: url("~assets/fonts/themix/TheMix_LT_400.woff") format("woff"),
+    url("~assets/fonts/themix/TheMix_LT_400.woff2") format("woff2"),
+    url("~assets/fonts/themix/TheMix_LT_400.otf") format("opentype"),
+    url("~assets/fonts/themix/TheMix_LT_400.svg#themix") format("svg");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "themix";
+  src: url("~assets/fonts/themix/TheMix_LT_400i.eot");
+  src: url("~assets/fonts/themix/TheMix_LT_400i.eot? #iefix")
+    format("embedded-opentype");
+  src: url("~assets/fonts/themix/TheMix_LT_400i.woff") format("woff"),
+    url("~assets/fonts/themix/TheMix_LT_400i.woff2") format("woff2"),
+    url("~assets/fonts/themix/TheMix_LT_400i.otf") format("opentype"),
+    url("~assets/fonts/themix/TheMix_LT_400i.svg#themix") format("svg");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "themix";
+  src: url("~assets/fonts/themix/TheMix_LT_700.eot");
+  src: url("~assets/fonts/themix/TheMix_LT_700.eot? #iefix")
+    format("embedded-opentype");
+  src: url("~assets/fonts/themix/TheMix_LT_700.woff") format("woff"),
+    url("~assets/fonts/themix/TheMix_LT_700.woff2") format("woff2"),
+    url("~assets/fonts/themix/TheMix_LT_700.otf") format("opentype"),
+    url("~assets/fonts/themix/TheMix_LT_700.svg#themix") format("svg");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "themix";
+  src: url("~assets/fonts/themix/TheMix_LT_700i.eot");
+  src: url("~assets/fonts/themix/TheMix_LT_700i.eot? #iefix")
+    format("embedded-opentype");
+  src: url("~assets/fonts/themix/TheMix_LT_700i.woff") format("woff"),
+    url("~assets/fonts/themix/TheMix_LT_700i.woff2") format("woff2"),
+    url("~assets/fonts/themix/TheMix_LT_700i.otf") format("opentype"),
+    url("~assets/fonts/themix/TheMix_LT_700i.svg#themix") format("svg");
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: "skautbold";
+  src: url("~assets/fonts/skautbold/skaut-bold-webfont.eot");
+  src: url("~assets/fonts/skautbold/skaut-bold-webfont.eot? #iefix")
+    format("embedded-opentype");
+  src: url("~assets/fonts/skautbold/skaut-bold-webfont.woff") format("woff"),
+    url("~assets/fonts/skautbold/skaut-bold-webfont.woff2") format("woff2"),
+    url("~assets/fonts/skautbold/skaut-bold-webfont.otf") format("opentype"),
+    url("~assets/fonts/skautbold/skaut-bold-webfont.svg#skautbold") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+:root {
+  --myblack: #0b0b0b;
+  --myblue: #174085;
+  --mygrey: #e8e8e8;
+  --myorange: #f6a800;
+}
+#app {
+  font-family: "themix", sans-serif;
+  font-weight: 400;
+  margin: 0px;
+  padding: 0px;
+  /* -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
+}
+
+h1 {
+  font-family: "skautbold";
+  margin: 20px 0 20px 0;
+  font-size: 2.5rem;
+}
+
+.new5 {
+  /* compatibility with Microsoft Edge, white line was added between components */
+  display: none;
+}
+
+@media screen and (min-width: 1264px) {
+  .contributor  {
+    padding-left: 250px;
+  }
+}
+
+.main-center-limitwidth {
+  margin: auto;
+  max-width: 1500px;
+  margin-top: 0px;
+  padding-top: 0px;
+}
+</style>
