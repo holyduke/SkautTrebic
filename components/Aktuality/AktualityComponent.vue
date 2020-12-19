@@ -1,15 +1,15 @@
 <template>
-  <v-container grid-list-xs class="my-3 main-center-limitwidth">
-    <h1 class="mb-0" id="Aktuality">Aktuality</h1>
-    <v-divider class="mb-2"></v-divider>
-    <v-btn
-      color="#174085"
-      :to="{ name: 'CreatePost' }"
-      v-if="isContributor"
-      class="my-3 white--text"
-      ><v-icon class="pr-2">mdi-message-draw</v-icon>Vytvořit příspěvek</v-btn
-    >
+  <div>
     <v-container grid-list-xs class="subtitle">
+      <h1 class="mb-0" id="Aktuality">Aktuality</h1>
+      <v-divider class="mb-2"></v-divider>
+      <v-btn
+        color="#174085"
+        :to="{ name: 'CreatePost' }"
+        v-if="isContributor"
+        class="my-3 white--text"
+        ><v-icon class="pr-2">mdi-message-draw</v-icon>Vytvořit příspěvek</v-btn
+      >
       <v-row>
         <v-layout row wrap>
           <v-flex xs12 sm12 md4 lg3 xl3 class="filtrtitle"
@@ -116,14 +116,13 @@
       :total-visible="9"
       color="#174085"
     ></v-pagination>
-  </v-container>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
-// import vue-scrollto from "vue-scrollto";
-import AktualitaPreview from "../components/Aktuality/AktualitaPreview";
-import AktualitaPreviewLoader from "../components/Aktuality/AktualitaPreviewLoader";
+import AktualitaPreview from "~/components/Aktuality/AktualitaPreview";
+import AktualitaPreviewLoader from "~/components/Aktuality/AktualitaPreviewLoader";
 import Constants from "@/constants.js";
 
 export default {
@@ -142,8 +141,7 @@ export default {
         "světlušky",
         "roveři",
         "oldskauti",
-      ],
-      selected: [],
+      ],      
       id: "",
       aktuality: [],
       aktualityTotalCount: 0,
@@ -152,6 +150,8 @@ export default {
       //aktualityPerPage defined in computed
     };
   },
+
+  props: ['selected'],
 
   computed: {
     isContributor() {

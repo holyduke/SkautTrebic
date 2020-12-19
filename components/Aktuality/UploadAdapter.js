@@ -1,5 +1,5 @@
 import axios from "axios";
-import store from '@/store/store'
+import store from '@/store/index'
 import FetchImagesMixin from "@/mixins/FetchImagesMixin";
 
 export default class UploadAdapter {

@@ -82,8 +82,10 @@
 
 <script>
 // import axios from "axios";
+const Cookie = process.client ? require('js-cookie') : undefined
 
 export default {
+  middleware: 'notAuthenticated',
   name: "LoginForm",
   
   props:['doNotApplyRedirect'],
@@ -99,30 +101,39 @@ export default {
     login: function () {
       this.$store.dispatch('login')
       .then((response) => {
-          console.log('reponse', response)
-          console.log('loged successfully!! doNotApplyRedirect value = ', this.doNotApplyRedirect);
-          this.$store.dispatch('setJwt',response.data.jwt);
-          this.$store.dispatch('setName',response.data.user.jmeno);
-          this.$store.dispatch('setPrezdivka',response.data.user.prezdivka);
-          this.$store.dispatch('setRoleName',response.data.user.role.name);
-          this.$store.dispatch('set_id',response.data.user._id);
-          this.$store.dispatch("closeLoginDialog");
-          this.passwordVisible = false;
-          const redirect_url = this.$route.query.redirect || "/aktuality";
-          if (!this.doNotApplyRedirect) {
-            this.$router.replace(redirect_url).catch(()=>{});
-          }
-        })
-      .catch((error) => {
-        console.log('Error 400: wrong username or password:',error.response);
-        this.$store.commit('setLoginDialogLoader',false);
-        if (error.response.data.message[0].messages[0].id == "Auth.form.error.invalid") {
-          this.$store.commit('setWrongPassword',true);
-        }
-        else if (error.response.data.message[0].messages[0].id == "Auth.form.error.blocked")  {
-          this.$store.commit('setBlockedUserMsg',true);
-        }
-      });
+        this.$store.dispatch('setAuth', response.data.jwt) // mutating to store for client rendering
+        Cookie.set('auth', response.data.jwt) // saving token in cookie for server rendering
+        this.$router.push('/')
+      })
+      // const auth = {
+      //   accessToken: 'someStringGotFromApiServiceWithAjax'
+      // }
+      
+      // .then((response) => {
+      //     console.log('reponse', response)
+      //     console.log('loged successfully!! doNotApplyRedirect value = ', this.doNotApplyRedirect);
+      //     this.$store.dispatch('setJwt',response.data.jwt);
+      //     this.$store.dispatch('setName',response.data.user.jmeno);
+      //     this.$store.dispatch('setPrezdivka',response.data.user.prezdivka);
+      //     this.$store.dispatch('setRoleName',response.data.user.role.name);
+      //     this.$store.dispatch('set_id',response.data.user._id);
+      //     this.$store.dispatch("closeLoginDialog");
+      //     this.passwordVisible = false;
+      //     const redirect_url = this.$route.query.redirect || "/aktuality";
+      //     if (!this.doNotApplyRedirect) {
+      //       this.$router.replace(redirect_url).catch(()=>{});
+      //     }
+      //   })
+      // .catch((error) => {
+      //   console.log('Error 400: wrong username or password:',error.response);
+      //   this.$store.commit('setLoginDialogLoader',false);
+      //   if (error.response.data.message[0].messages[0].id == "Auth.form.error.invalid") {
+      //     this.$store.commit('setWrongPassword',true);
+      //   }
+      //   else if (error.response.data.message[0].messages[0].id == "Auth.form.error.blocked")  {
+      //     this.$store.commit('setBlockedUserMsg',true);
+      //   }
+      // });
     },
 
 

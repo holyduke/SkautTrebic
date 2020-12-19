@@ -120,8 +120,7 @@ export default {
 
     getMainVedoucis() {      
       return new Promise((resolve) =>  {
-        axios
-          .get('/dulezity-vedoucis')
+        this.$axios.$.get('/dulezity-vedoucis')
           .then((response) => {
             this.main_contacts= [];
             response.data.forEach((item) => {
@@ -144,7 +143,7 @@ export default {
     },
 
     getRestOfVedoucis() {
-      axios({
+      this.$axios({
       url: '/graphql',
       method: 'post',
       data: {
@@ -172,7 +171,7 @@ export default {
       if (this.newVedouci!=null)  {
         this.pickDialog = false;
         this.setLoading(true);
-        axios.post('/dulezity-vedoucis', {
+        this.$axios.$post('/dulezity-vedoucis', {
             'vedouci': this.newVedouci
           })
           .then((response) => {
@@ -219,7 +218,7 @@ export default {
             let promises = [];
 
             // delete from collection dulezity-vedoucis
-            promises.push(axios.delete('/dulezity-vedoucis/' + person.id)
+            promises.push(this.$axios.$delete('/dulezity-vedoucis/' + person.id)
               .then((response) => {
                 console.log('dulezity vedouci deleted',response);
               })
@@ -230,7 +229,7 @@ export default {
             //delete photo
             if (person.vedouci.fotka[0].url) {
               promises.push(
-                axios.delete('/upload/files/' + person.vedouci.fotka[0]._id)
+                this.$axios.$delete('/upload/files/' + person.vedouci.fotka[0]._id)
                   .then((response) => {
                     console.log('photo of vedouci deleted successfully',response);                    
                   })
@@ -240,7 +239,7 @@ export default {
             }
 
             // delete from collection vedoucis
-            promises.push(axios.delete('/vedoucis/' + person.vedouci.id)
+            promises.push(this.$axios.$delete('/vedoucis/' + person.vedouci.id)
               .then((response) => {
                 console.log('vedouci deleted',response);
               })
@@ -271,7 +270,7 @@ export default {
         .then((confirm) => {
           if (confirm)  {
             this.setLoading(true);
-            axios.delete('/dulezity-vedoucis/' + person.id)
+            this.$axios.$delete('/dulezity-vedoucis/' + person.id)
               .then((response) => {
                 console.log('dulezity vedouci deleted',response);
                 this.getMainVedoucis();
@@ -291,9 +290,14 @@ export default {
     },    
   },
 
-  created() {
-    // get main vedouci-----
-    this.getMainVedoucis();
+  // created() {
+  //   // get main vedouci-----
+  //   this.getMainVedoucis();
+  // },
+  async asyncData({ $axios }) {
+    // const ip = await $axios.$get('http://icanhazip.com')
+    console.log("asyncData -----------------------------------")
+    return this.getMainVedoucis();
   },
 
   components: {

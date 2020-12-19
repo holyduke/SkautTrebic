@@ -19,7 +19,7 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <div>
-              <v-btn depressed color="#fff" router :to="item.link">
+              <v-btn depressed color="#fff" :to="item.link">
                 <v-icon left>{{ item.icon }}</v-icon>
                 <strong>{{ item.title }}</strong>
               </v-btn>
@@ -274,27 +274,27 @@ export default {
         subs: [
           {
             title: "Skauti",
-            link: { name: "Aktuality", params: { oddil: "skauti" } },
+            link: { path: "/aktuality/skauti"},
           },
           {
             title: "Skautky",
-            link: { name: "Aktuality", params: { oddil: "skautky" } },
+            link: { name: "/aktuality/skautky"},
           },
           {
             title: "Vlčata",
-            link: { name: "Aktuality", params: { oddil: "vlcata" } },
+            link: { name: "/aktuality/vlcata" },
           },
           {
             title: "Světlušky",
-            link: { name: "Aktuality", params: { oddil: "svetlusky" } },
+            link: { name: "/aktuality/svetlusky" },
           },
           {
             title: "Roveři",
-            link: { name: "Aktuality", params: { oddil: "roveri" } },
+            link: { name: "/aktuality/roveri" },
           },
           {
             title: "Oldskauti",
-            link: { name: "Aktuality", params: { oddil: "oldskauti" } },
+            link: { name: "/aktuality/oldskauti" },
           },
         ],
         chosen: false,

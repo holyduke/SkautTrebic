@@ -19,6 +19,22 @@ export default {
   css: [
   ],
 
+  axios: {
+    baseURL: 'http://localhost:1337', // Used as fallback if no runtime config is provided
+  },
+
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: 'http://localhost:1337'
+    }
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: 'http://localhost:1337'
+    }
+  },
+
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     { src: '~/plugins/gallery', mode: 'client' }
@@ -36,6 +52,7 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
+    
   ],
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
