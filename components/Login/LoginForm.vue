@@ -100,14 +100,17 @@ export default {
   methods: {
     login: function () {
       this.$store.dispatch('login')
-      .then((response) => {
-        this.$store.dispatch('setAuth', response.data.jwt) // mutating to store for client rendering
-        Cookie.set('auth', response.data.jwt) // saving token in cookie for server rendering
-        this.$router.push('/')
-      })
-      // const auth = {
-      //   accessToken: 'someStringGotFromApiServiceWithAjax'
-      // }
+        .then((response) => {
+          if (response.status === 200)  {
+            this.$store.commit('setLoginDialogLoader', false);
+            // this.$store.dispatch('setAuth', response.data.jwt) // mutating to store for client rendering
+            Cookie.set('auth', response.data.jwt, { expires: 7 }) // saving token in cookie for server rendering
+            this.$router.push('/')
+          }
+        })
+        .catch((error) => {
+          this.$store.commit('setLoginDialogLoader', false);
+        })
       
       // .then((response) => {
       //     console.log('reponse', response)

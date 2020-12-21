@@ -4,7 +4,6 @@ import Vuex from 'vuex';
 import axios from 'axios';
 
 Vue.use(Vuex);
-const cookieparser = process.server ? require('cookieparser') : undefined
 
 const createStore = () => {
 	return new Vuex.Store({
@@ -20,6 +19,7 @@ const createStore = () => {
 				// prezdivka: localStorage.getItem('prezdivka') || null,
 				// roleName: localStorage.getItem('roleName') || null,
 				// _id: localStorage.getItem('_id') || null,
+				auth:null,
 				justLoggedIn: null,
 				wrongPassword: false,
 				blockedUserMsg: false,
@@ -52,44 +52,6 @@ const createStore = () => {
 		}),
 
 		getters: {
-			getOddily(state) {
-				console.log('getOddily called, state.oddily', state.oddily);
-				if (state.oddily.length > 0) {
-					console.log('oddily already loaded');
-					return new Promise((resolve) => {
-						resolve(state.oddily);
-					});
-				} else {
-					return new Promise((resolve) => {
-						axios({
-							url: '/graphql',
-							method: 'post',
-							data: {
-								query: `
-							{
-								oddils {
-										nazev,
-										_id,
-										sendinblue_templateID
-									}
-									}
-								`
-							}
-						})
-							.then((result) => {
-								// console.log('graphql oddily result', result);
-								result.data.data.oddils.forEach((it) => {
-									state.oddily.push(it);
-								});
-								resolve(state.oddily);
-							})
-							.catch((e) => {
-								console.log(e);
-							});
-					});
-				}
-			},
-
 			isLoggedIn: (state) => {
 				return state.login.jwt !== null;
 			},
@@ -139,6 +101,9 @@ const createStore = () => {
 			},
 			getJustLoggedIn: (state) => {
 				return state.login.justLoggedIn;
+			},
+			getAuth: (state) => {
+				return state.auth;
 			},
 			getLoginDialogForm: (state) => {
 				return state.login.loginDialogForm;
@@ -248,7 +213,7 @@ const createStore = () => {
 				state.login.justLoggedIn = true;
 				state.login.jwt = jwt;
 				// localStorage.setItem('jwt', jwt);
-				axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt;
+				this.$axios.$defaults.headers.common['Authorization'] = 'Bearer ' + jwt;
 			},
 
 			setPostContent: (state, newValue) => {
@@ -296,15 +261,45 @@ const createStore = () => {
 		},
 
 		actions: {
-			nuxtServerInit({ commit }, { req }) {
+			async getOddily(state) {
+				console.log('getOddily called, state.oddily', state.oddily);
+				if (state.oddily.length > 0) {
+					console.log('oddily already loaded');
+					return new Promise((resolve) => {
+						resolve(state.oddily);
+					});
+				}
+				else {
+					const result = await this.$axios.post({
+						url: '/graphql',
+						data: {
+							query: `{
+							oddils {
+									nazev,
+									_id,
+									sendinblue_templateID
+								}
+							}`
+						}});
+					result.data.data.oddils.forEach((it) => {
+						state.oddily.push(it);
+					});
+					return state.oddily;
+				}
+			},
+
+			nuxtServerInit({ commit }, {req, app}, context) {				
+				console.log("nuxtServerInit", req.headers.cookie);
 				let auth = null
 				if (req.headers.cookie) {
+					const cookieparser = process.server ? require('cookieparser') : undefined
 					const parsed = cookieparser.parse(req.headers.cookie)
 					try {
-						auth = JSON.parse(parsed.auth)
+						auth = JSON.parse(parsed.auth)						
 					} catch (err) {
 						// No valid cookie found
 					}
+					app.$axios.setToken(parsed.auth, 'Bearer')
 				}
 				commit('setAuth', auth)
 			},
@@ -380,36 +375,39 @@ const createStore = () => {
 				context.commit('setBreadcrumbs', newValue);
 			},
 
-			login: (context) => {
-				console.log('trying to log in');
-				context.commit('setLoginDialogLoader', true);
-				context.commit('setWrongPassword', false);
-				context.commit('setBlockedUserMsg', false);
-
-				return new Promise((resolve, reject) => {
-					axios
-						.post('/auth/local', {
-							identifier: context.getters.getUsername,
-							password: context.getters.getPassword
-						})
-						.then((response) => {
-							console.log('-----login successfull--------');
-							if (response.status === 200) {
-								resolve(response);
-							} else {
-								console.log('rejecting');
-								reject('wrong request');
+			async login(context) {
+				return new Promise(async (resolve, reject) =>	{
+					console.log('trying to log in');
+					context.commit('setLoginDialogLoader', true);
+					context.commit('setWrongPassword', false);
+					context.commit('setBlockedUserMsg', false);
+	
+					try{
+						// const response = await this.$axios.post('/auth/local', {
+						// 	identifier: context.getters.getUsername,
+						// 	password: context.getters.getPassword
+						// })
+						// SSR LOGIN NUXT
+						let response = await this.$auth.loginWith('local', { 
+							data: {
+								identifier: context.getters.getUsername,
+								password: context.getters.getPassword
 							}
 						})
-						.catch((error) => {
-							reject(error);
-						});
-				});
+						console.log("response of login", response)	
+						resolve(response);
+					}
+					catch(e) {
+						console.log(e)
+						context.commit('setLoginDialogLoader', false);
+						console.log('wrong request, probably empty username or password');
+						reject();
+					}
+				})
 			},
 
 			deleteFile: (context, _id) => {
-				axios
-					.delete('/upload/files/' + _id)
+				this.$axios.$delete('/upload/files/' + _id)
 					.then((response) => {
 						console.log('File was deleted', response);
 					})

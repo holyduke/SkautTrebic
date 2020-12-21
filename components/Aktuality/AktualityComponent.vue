@@ -120,7 +120,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import AktualitaPreview from "~/components/Aktuality/AktualitaPreview";
 import AktualitaPreviewLoader from "~/components/Aktuality/AktualitaPreviewLoader";
 import Constants from "@/constants.js";
@@ -147,9 +147,10 @@ export default {
       aktualityTotalCount: 0,
       page: 1,
       aktualityPerPage: 8,
-      //aktualityPerPage defined in computed
     };
   },
+
+  
 
   props: ['selected'],
 
@@ -211,8 +212,7 @@ export default {
 
   methods: {
     getAktualityCount: function () {
-      axios
-        .get("/aktualitas/count?" + this.queryStringGeneral)
+      this.$axios.get("/aktualitas/count?" + this.queryStringGeneral)
         .then((response) => {
           this.aktualityTotalCount = response.data;
           console.log("pocet aktualit:", this.aktualityTotalCount);
@@ -224,8 +224,7 @@ export default {
 
     getAktuality: function () {
       this.loaded = false;
-      axios
-        .get(`/aktualitas?` + this.queryStringSpecific)
+      this.$axios.get(`/aktualitas?` + this.queryStringSpecific)
         .then((response) => {
           console.log("axios response received new aktuality");
           this.aktuality = response.data;

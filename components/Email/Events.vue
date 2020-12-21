@@ -212,7 +212,7 @@ export default {
     },
 
     getOddily() {
-      return this.$store.getters.getOddily;
+      return this.$store.dispatch('getOddily');
     },
 
     handleClick(par) {

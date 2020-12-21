@@ -4,7 +4,7 @@ export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s - skauttrebic-nuxtjs',
-    title: 'skauttrebic-nuxtjs',
+    title: 'Skaut Třebíč',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -35,6 +35,31 @@ export default {
     }
   },
 
+  server: {
+    port: 3000,
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          required: false,
+          // type: 'Bearer' //Bearer is default
+        },
+        user: {
+          property: 'user',
+          // autoFetch: true
+        },
+        endpoints: {
+          login: { url: '/auth/local', method: 'post' },
+          logout: { url: '/thisneedstobechanged', method: 'post' },
+          user: false,
+        },
+      }
+    }
+  },
+
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     { src: '~/plugins/gallery', mode: 'client' }
@@ -52,7 +77,8 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
-    
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
@@ -77,5 +103,10 @@ export default {
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     transpile: ['vue-picture-swipe'],
+    extend(config, ctx) {
+      if (ctx.isDev) {
+        config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
+      }
+    }
   }
 }
