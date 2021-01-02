@@ -1,5 +1,4 @@
 <template>
-  <div>
     <v-container grid-list-xs class="subtitle">
       <h1 class="mb-0" id="Aktuality">Aktuality</h1>
       <v-divider class="mb-2"></v-divider>
@@ -69,7 +68,7 @@
           </v-flex>
         </v-layout>
       </v-row>
-    </v-container>
+    
 
     <!-- previews skeleton loaders -->
     <v-row justify="center">
@@ -116,7 +115,7 @@
       :total-visible="9"
       color="#174085"
     ></v-pagination>
-  </div>
+  </v-container>  
 </template>
 
 <script>
@@ -152,7 +151,7 @@ export default {
 
   
 
-  props: ['selected'],
+  props: ['selected', 'posts'],
 
   computed: {
     isContributor() {
@@ -277,7 +276,9 @@ export default {
   },
 
   created() {
-    this.acceptParams();
+    this.aktuality = this.posts;
+    this.aktuality.forEach(this.convertTimeToCET);
+    this.loaded = true;
   },
 
   updated() {

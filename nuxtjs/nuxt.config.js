@@ -45,6 +45,7 @@ export default {
         token: {
           property: 'token',
           required: false,
+          maxAge: 864000000 //10 000 days
           // type: 'Bearer' //Bearer is default
         },
         user: {

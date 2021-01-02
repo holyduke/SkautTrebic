@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xs class="my-3 main-center-limitwidth">
-    <!-- <AktualityComponent :selected="selected" /> -->
+    <AktualityComponent :selected="selected" :posts="posts" />
   </v-container>
 </template>
 
@@ -14,15 +14,14 @@ export default {
 
   data() {
     return {
-      selected:["skautky",]
+      selected:["skauti", "skautky", "vlčata", "světlušky", "roveři", "oldskauti"]
     }
   },
 
   async asyncData({ req, $axios }) {
     console.log('ASYNCDATA');
-    const post = await $axios.$get(`/aktualitas/count?`)
-    console.log("asnycdata post", post);
-    return { post }
+    const posts = await $axios.$get(`/aktualitas`)
+    return { posts }
   },
   
   component:  {
