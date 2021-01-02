@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "oddils",
+  "info": {
+    "name": "Oddil",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "nazev": {
+      "type": "string"
+    },
+    "vedoucis": {
+      "collection": "vedouci",
+      "via": "oddil"
+    },
+    "vudce_oddilu": {
+      "model": "vedouci"
+    },
+    "aktualitas": {
+      "via": "oddils",
+      "collection": "aktualita"
+    },
+    "clens": {
+      "collection": "clen",
+      "via": "oddil"
+    },
+    "sendinblue_templateID": {
+      "type": "integer",
+      "required": true
+    }
+  }
+}

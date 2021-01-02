@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "aktualitas",
+  "info": {
+    "name": "Aktualita",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "nadpis": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    },
+    "text": {
+      "type": "richtext",
+      "required": false
+    },
+    "oddils": {
+      "collection": "oddil",
+      "via": "aktualitas",
+      "dominant": true
+    },
+    "autor": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "aktualitas"
+    },
+    "priloha": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "files",
+        "images",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "obrazky": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false
+    }
+  }
+}
