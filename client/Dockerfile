@@ -5,13 +5,10 @@ WORKDIR /app
 
 COPY package.json /app
 
-# install
 RUN npm install
 
 COPY . /app
 
-# RUN rm yarn.lock
-# RUN npm
 RUN npm run build
 
 ENV HOST 0.0.0.0
