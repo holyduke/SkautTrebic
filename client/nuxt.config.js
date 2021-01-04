@@ -61,11 +61,11 @@ export default {
     }
   },
 
-  // watchers: {
-  //   webpack: {
-  //     poll: true
-  //   }
-  // },
+  watchers: {
+    webpack: {
+      poll: true
+    }
+  },
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
@@ -114,6 +114,7 @@ export default {
       if (ctx.isDev) {
         config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
       }
-    }
+    },
+    extractCSS: true
   }
 }
