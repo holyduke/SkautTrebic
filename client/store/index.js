@@ -19,7 +19,7 @@ const createStore = () => {
 				// prezdivka: localStorage.getItem('prezdivka') || null,
 				// roleName: localStorage.getItem('roleName') || null,
 				// _id: localStorage.getItem('_id') || null,
-				auth:null,
+				auth: null,
 				justLoggedIn: null,
 				wrongPassword: false,
 				blockedUserMsg: false,

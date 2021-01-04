@@ -107,6 +107,8 @@ export default {
     };
   },
 
+  props: ["vedoucisProps"],
+
   methods: {
     setLoading: function (value) {
       this.$store.commit("setLoading", value);
@@ -290,15 +292,13 @@ export default {
     },    
   },
 
-  // created() {
-  //   // get main vedouci-----
-  //   this.getMainVedoucis();
-  // },
-  async asyncData({ $axios }) {
-    // const ip = await $axios.$get('http://icanhazip.com')
-    console.log("asyncData -----------------------------------")
-    return this.getMainVedoucis();
+  created() {
+    // get main vedouci-----
+    this.main_contacts = this.vedoucisProps;
+    this.loading = false;
+    this.setLoading(false);
   },
+  
 
   components: {
     PersonCard,
