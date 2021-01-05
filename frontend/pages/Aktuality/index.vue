@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xs class="my-3 main-center-limitwidth">
-    <AktualityComponent :selected="selected" :posts="posts" />
+    <AktualityComponent v-if="posts" :selected="selected" :posts="posts" />
   </v-container>
 </template>
 
@@ -20,7 +20,10 @@ export default {
 
   async asyncData({ req, $axios }) {
     console.log('ASYNCDATA');
-    const posts = await $axios.$get(`/aktualitas`)
+    let posts = await $axios.$get(`/aktualitas`)
+    if (posts)  {
+      posts = null
+    }
     return { posts }
   },
   

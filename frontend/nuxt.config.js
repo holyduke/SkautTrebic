@@ -23,17 +23,12 @@ export default {
     baseURL: 'http://localhost:1337', // Used as fallback if no runtime config is provided
   },
 
-  publicRuntimeConfig: {
-    axios: {
-      browserBaseURL: 'http://localhost:1337'
-    }
-  },
-
-  privateRuntimeConfig: {
-    axios: {
-      baseURL: 'http://localhost:1337'
-    }
-  },
+  // publicRuntimeConfig: {
+  //   axios: {
+  //     browserBaseURL: 'http://backend:1337',
+  //     baseURL: 'http://backend:1337'
+  //   }
+  // },
 
   server: {
     port: 3000,

@@ -1,12 +1,27 @@
 version: '3'
 
 services:
-  frontend:
+  backend:
     build:
-      context: ./client
+      context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - ./client:/app
+      - ./backend:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+    environment:
+      - HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - 1337:1337
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
       - /app/node_modules
       - /app/.nuxt
     stdin_open: true
@@ -17,20 +32,5 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - "backend"
-
-  backend:
-    build:
-      context: ./api
-      dockerfile: Dockerfile
-    volumes:
-      - ./api:/app
-      - /app/node_modules
-    stdin_open: true
-    tty: true
-    environment:
-      - HOST=0.0.0.0
-      - CHOKIDAR_USEPOLLING=true
-    ports:
-      - 1337:1337
+      - "backend" 
     

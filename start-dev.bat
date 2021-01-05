@@ -1,7 +1,7 @@
 @echo off
 
-cd .\api\
+cd .\backend\
 start npm run dev
 
-cd ../client
+cd ../frontend
 start npm run dev
