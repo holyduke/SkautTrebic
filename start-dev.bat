@@ -1,10 +1,7 @@
 @echo off
 
-#backend
-cd ./api
-call pm2 --name skauttrebic-backend-batch start npm -- start
+cd .\api\
+start npm run dev
 
-#frontend
 cd ../client
-echo %cd%
-call pm2 --name skauttrebic-frontend-batch start npm -- start
+start npm run dev
