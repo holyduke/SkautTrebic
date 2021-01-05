@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  skauttrebic-frontend:
+  frontend:
     build:
       context: ./client
       dockerfile: Dockerfile
@@ -16,3 +16,21 @@ services:
       - CHOKIDAR_USEPOLLING=true
     ports:
       - 3000:3000
+    depends_on:
+      - "backend"
+
+  backend:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+    environment:
+      - HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - 1337:1337
+    
