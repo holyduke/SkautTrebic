@@ -20,13 +20,13 @@ export default {
   ],
 
   axios: {
-    baseURL: 'http://localhost:1337', // Used as fallback if no runtime config is provided
+    baseURL: process.env.BASE_URL
   },
 
   // publicRuntimeConfig: {
   //   axios: {
-  //     browserBaseURL: 'http://backend:1337',
-  //     baseURL: 'http://backend:1337'
+      // browserBaseURL: 'http://backend:1337',
+      // baseURL: process.env.BASE_URL
   //   }
   // },
 
