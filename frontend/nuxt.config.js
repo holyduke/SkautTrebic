@@ -1,6 +1,10 @@
+require('dotenv').config()
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  env: {
+    API_URL: process.env.BASE_URL || 'http://localhost:1337'
+  },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s - skauttrebic-nuxtjs',
@@ -20,15 +24,23 @@ export default {
   ],
 
   axios: {
-    baseURL: process.env.BASE_URL
+    baseURL: process.env.API_URL,
   },
 
-  // publicRuntimeConfig: {
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.API_URL,
+      baseURL: process.env.API_URL
+    }
+  },
+
+  // privateRuntimeConfig: {
   //   axios: {
-      // browserBaseURL: 'http://backend:1337',
-      // baseURL: process.env.BASE_URL
+  //     browserBaseURL: process.env.API_URL,
+  //     baseURL: process.env.API_URL
   //   }
   // },
+
 
   server: {
     port: 3000,
@@ -80,7 +92,8 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/dotenv',
   ],
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
